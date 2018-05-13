@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+        #map {
+            height: 100%;
+        }
+    </style>
+    <script src="https://unpkg.com/onsenui/js/onsenui.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe0z0XLVoRitx3PdufUpGOH32Rlz1ADvA"></script>
+
+</head>
+
+<body>
+    
+<ons-page>
+    <ons-splitter>
+        <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+            <ons-page>
+                <ons-list>
+                    <ons-list-item onclick="fn.load('home.html')" tappable>Home</ons-list-item>
+                    <ons-list-item onclick="fn.load('map.html')" tappable>Karte</ons-list-item>
+                    <ons-list-item onclick="fn.load('liste.html')" tappable>Touren</ons-list-item>
+                    <ons-list-item onclick="fn.load('about.html')" tappable>About</ons-list-item>
+                </ons-list>
+            </ons-page>
+        </ons-splitter-side>
+        <ons-splitter-content id="content">
+        <ons-page id="homePage">
+        <ons-navigator id="myNavigator" page="home.html"></ons-navigator>
+    </ons-page>
+        </ons-splitter-content>
+    </ons-splitter>
+</ons-page>
+    
+<template id="liste.html">
+    <ons-page id ="liste">
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Back</ons-back-button>
+                <ons-toolbar-button onclick="fn.open()">
+                    <ons-icon icon="md-menu"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">
+                Meine Lieblingstouren
+            </div>
+        </ons-toolbar>
+        <ons-list>
+            <ons-list-item modifier="chevron" onclick="fn.load('map.html', {data: {title: 'Meine erste Tour'}})" tappable>Meine erste Tour</ons-list-item>
+            <ons-list-item modifier="chevron" onclick="fn.load('map.html', {data: {title: 'Meine zweite Tour'}})" tappable>Meine zweite Tour</ons-list-item>
+            <ons-list-item modifier="chevron" tappable>Meine siebzehnte Tour</ons-list-item>
+        </ons-list>
+    </ons-page>
+</template>
+    
+    
+<template id="home.html">
+  <ons-page id ="home">
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="fn.open()">
+          <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">Walk the Dog</div>
+    </ons-toolbar>
+    <p style="text-align: center; opacity: 0.6; padding-top: 20px;">
+      Swipe right to open the menu!
+    </p>
+  </ons-page>
+</template>
+
+<template id="map.html">
+  <ons-page id ="karte">
+        <ons-toolbar>
+            <div class="left">
+                <ons-toolbar-button onclick="fn.open()">
+                    <ons-icon icon="md-menu"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">
+                Touren
+            </div>
+        </ons-toolbar>
+        <div id="map"></div>
+  </ons-page>
+</template>
+    
+<template id="about.html">
+  <ons-page id ="about">
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="fn.open()">
+          <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        About
+      </div>
+    </ons-toolbar>
+  </ons-page>
+</template>
+
+
+<script>
+    var map;
+    var path = [];
+    
+    window.fn = {};
+
+    window.fn.open = function() {
+        var menu = document.getElementById('menu');
+        menu.open();
+    };
+
+    window.fn.load = function(page, data) {
+        var content = document.getElementById('myNavigator');
+        var menu = document.getElementById('menu');
+        content.pushPage(page, data)
+            .then(menu.close.bind(menu));
+    };
+
+    window.fn.pop = function() {
+        var content = document.getElementById('myNavigator');
+        content.popPage();
+    };
+    
+    
+    document.addEventListener('init', function(event) { 
+        var page = event.target; 
+        if (page.data && page.data.title) {
+            console.log(page.data)
+            page.querySelector('ons-toolbar .center').innerHTML = appName + " " + page.data.title; 
+        }
+        console.log(page)
+        if (page.id == "karte") {
+                 //Karte initialisieren
+            console.log("adsf")
+         setupMap(48, 16.5);
+            
+        }
+    });
+    
+ function setupMap(lat, lng) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            path = getRandomRoute(position.coords.latitude, position.coords.longitude)
+        }, function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }, {
+            timeout: 5000
+        });
+
+        path = getRandomRoute(lat, lng);
+        console.log(path)
+        // ons.notification.alert("Look at the map!")
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: path[-1],
+            mapTypeId: 'terrain'
+        });
+
+        // Create the array that will be used to fit the view to the points range and
+        // place the markers to the polyline's points
+        var latLngBounds = new google.maps.LatLngBounds();
+        for (var i = 0; i < path.length; i++) {
+            latLngBounds.extend(path[i]);
+            // Place the marker
+            new google.maps.Marker({
+                map: map,
+                position: path[i],
+                title: "Point " + (i + 1)
+            });
+        }
+        // Creates the polyline object
+
+        var polyline = new google.maps.Polyline({
+            map: map,
+            path: path,
+            strokeColor: '#0000FF',
+            strokeOpacity: 0.7,
+            strokeWeight: 1
+        });
+        // Fit the bounds of the generated points
+        map.fitBounds(latLngBounds);
+
+    }
+
+    function getRandomRoute(la, lo, maxIterations = 4) {
+        var coords = [];
+        for (var i = 0; i < maxIterations; i++) {
+            // Create a random point using the user current position and a random generated number.
+            // The number will be once positive and once negative using based on the parity of i
+            // and to reduce the range the number is divided by 10
+
+            coords.push({
+                lat: la + (Math.random() / 10 * ((i % 2) ? 1 : -1)),
+                lng: lo + (Math.random() / 10 * ((i % 2) ? 1 : -1))
+            });
+        }
+
+        coords.push(coords[0]);
+        return coords;
+    }
+    
+
+
+    var appkey = "97mn80y6";
+    var loadHttp = function (act, url, callback) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                if (callback) {
+                    callback(this.responseText);
+                }
+            }
+        };
+        xhttp.open(act, url, true);
+        xhttp.send();
+    };
+
+    var getValue = function (key, fcn) {
+        loadHttp("GET", "https://keyvalue.immanuel.co/api/KeyVal/GetValue/" + appkey + "/" + key, fcn);
+    }
+
+    var updateValue = function (key, value) {
+        loadHttp("POST", "https://keyvalue.immanuel.co/api/KeyVal/ActOnValue/" + appkey + "/" + key + "/" + value, function(){});
+    }
+
+    updateValue('appName', 'WalkTheDog');
+    var appName = "";
+    getValue('appName', function(data){ appName = data.appName; });
+</script>
+</body>
+</html>
