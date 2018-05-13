@@ -25,19 +25,14 @@
             <ons-page>
                 <ons-list>
                     <ons-list-item onclick="fn.load('home.html')" tappable>Neue Tour</ons-list-item>
-                    <ons-list-item onclick="fn.load('liste.html')" tappable>Touren</ons-list-item>
-                    <ons-list-item onclick="fn.load('home.html')" tappable>Veranstaltungen & Events</ons-list-item>
-                    
-                    <ons-list-item onclick="fn.load('home.html')" tappable>Orte</ons-list-item>
-                    <ons-list-item onclick="fn.load('home.html')" tappable>Videos</ons-list-item>
-                    
-                    <ons-list-item onclick="fn.load('home.html')" tappable>Anfahrt</ons-list-item>
-                    
+                    <ons-list-item onclick="fn.load('touren.html')" tappable>Touren</ons-list-item>
+                    <ons-list-item onclick="fn.load('events.html')" tappable>Veranstaltungen & Events</ons-list-item>
+                                  
                     <ons-list-item onclick="fn.load('home.html')" tappable>Kontakte</ons-list-item>
-                    
+               
                     <ons-list-item onclick="fn.load('home.html')" tappable>Impressum</ons-list-item>
                     
-                    <ons-list-item onclick="fn.load('home.html')" tappable>Webseite</ons-list-item>
+    
                 </ons-list>
             </ons-page>
         </ons-splitter-side>
@@ -49,7 +44,7 @@
     </ons-splitter>
 </ons-page>
     
-<template id="liste.html">
+<template id="touren.html">
     <ons-page id ="liste">
         <ons-toolbar>
             <div class="left">
@@ -66,6 +61,27 @@
             <ons-list-item modifier="chevron" onclick="fn.load('map.html', {data: {title: 'Meine erste Tour'}})" tappable>Meine erste Tour</ons-list-item>
             <ons-list-item modifier="chevron" onclick="fn.load('map.html', {data: {title: 'Meine zweite Tour'}})" tappable>Meine zweite Tour</ons-list-item>
             <ons-list-item modifier="chevron" tappable>Meine siebzehnte Tour</ons-list-item>
+        </ons-list>
+    </ons-page>
+</template>
+    
+    <template id="events.html">
+    <ons-page id ="liste2">
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Back</ons-back-button>
+                <ons-toolbar-button onclick="fn.open()">
+                    <ons-icon icon="md-menu"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">
+                Meine Lieblingstouren
+            </div>
+        </ons-toolbar>
+        <ons-list>
+             <ons-list-item modifier="chevron" tappable>Hundeausstellung St. Pölten 1.6.18</ons-list-item>
+            
+             <ons-list-item modifier="chevron" tappable>Wandertag Neusiedlersee 17.10.18</ons-list-item>
         </ons-list>
     </ons-page>
 </template>
@@ -102,21 +118,8 @@
         <div id="map"></div>
   </ons-page>
 </template>
-    
-<template id="about.html">
-  <ons-page id ="about">
-    <ons-toolbar>
-      <div class="left">
-        <ons-toolbar-button onclick="fn.open()">
-          <ons-icon icon="md-menu"></ons-icon>
-        </ons-toolbar-button>
-      </div>
-      <div class="center">
-        About
-      </div>
-    </ons-toolbar>
-  </ons-page>
-</template>
+
+ 
 
 
 <script>
