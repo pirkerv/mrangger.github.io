@@ -231,7 +231,7 @@
     }
 
     var updateValue = function (key, value) {
-        loadHttp("POST", "https://keyvalue.immanuel.co/api/KeyVal/ActOnValue/" + appkey + "/" + key + "/" + value, function(){});
+        loadHttp("POST", "https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/" + appkey + "/" + key + "/" + value, function(){});
     }
 
     updateValue('appName', 'WalkTheDog');
