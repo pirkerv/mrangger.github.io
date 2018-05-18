@@ -58,7 +58,6 @@
     <ons-page id ="liste">
         <ons-toolbar>
             <div class="left">
-                <ons-back-button>Back</ons-back-button>
                 <ons-toolbar-button onclick="fn.open()">
                     <ons-icon icon="md-menu"></ons-icon>
                 </ons-toolbar-button>
@@ -115,8 +114,9 @@
 
 <template id="map.html">
   <ons-page id ="karte">
-        <ons-toolbar>
+         <ons-toolbar>
             <div class="left">
+                <ons-back-button>Back</ons-back-button>
                 <ons-toolbar-button onclick="fn.open()">
                     <ons-icon icon="md-menu"></ons-icon>
                 </ons-toolbar-button>
@@ -374,13 +374,13 @@ Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, 
        
         navigator.geolocation.getCurrentPosition(function(position) {
             var route = new Route(title, desc, position.coords.latitude, position.coords.longitude);
-            console.log(JSON.stringigy(route));
+            console.log(JSON.stringify(route));
             updateValue("tile", JSON.stringify(route));
             ons.notification.alert('Neue Route ' + title + ' angelegt!');
         }, function error(err) {
             console.warn(`ERROR(${err.code}): ${err.message}`);
         }, {
-            timeout: 5000
+            timeout: 50000
         });
     };
 
