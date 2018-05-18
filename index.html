@@ -146,7 +146,7 @@
            <div style="text-align: center; margin-top: 30px;">
       <textarea class="textarea" rows="1" placeholder="Name" id="newTitle"></textarea>
       <textarea class="textarea" rows="3" placeholder="Beschreibung" id="newDesc"></textarea>
-      <ons-button onclick="addNewRoute(this)">Neuer Eintrag</ons-button>
+      <ons-button onclick="addNewRoute()">Neuer Eintrag</ons-button>
             </div>
      
             
@@ -371,17 +371,24 @@ Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, 
     var addNewRoute = function() {
         var title = document.getElementById('newTitle').value;
         var desc = document.getElementById('newDesc').value;
-        
-        var route = new Route(title, desc, position.coords.latitude, position.coords.longitude);
-        console.log(JSON.stringigy(route));
-        updateValue("tile", JSON.stringify(route));
-        ons.notification.alert('Neue Route ' + title + ' angelegt!');
+       
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var route = new Route(title, desc, position.coords.latitude, position.coords.longitude);
+            console.log(JSON.stringigy(route));
+            updateValue("tile", JSON.stringify(route));
+            ons.notification.alert('Neue Route ' + title + ' angelegt!');
+        }, function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }, {
+            timeout: 5000
+        });
     };
 
     var getValue = function (key, fcn) {
         loadHttp("GET", "https://keyvalue.immanuel.co/api/KeyVal/GetValue/" + appkey + "/" + key, fcn);
     }
 
+   
     var updateValue = function (key, value) {
         loadHttp("POST", "https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/" + appkey + "/" + key + "/" + value, function(){});
     }
