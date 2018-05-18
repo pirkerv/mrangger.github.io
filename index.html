@@ -143,10 +143,13 @@
             </div>
         </ons-toolbar>
         <div>
-            
-      <div><input type="text" class="text-input" placeholder="Name" value=""></div>
-      <textarea class="textarea" rows="3" placeholder="Beschreibung"></textarea>
+           <div style="text-align: center; margin-top: 30px;">
+      <textarea class="textarea" rows="1" placeholder="Name" id="newTitle"></textarea>
+      <textarea class="textarea" rows="3" placeholder="Beschreibung" id="newDesc"></textarea>
+      <ons-button onclick="addNewRoute(this)">Neuer Eintrag</ons-button>
+            </div>
      
+            
   </ons-page>
 </template>
     
@@ -356,6 +359,23 @@ Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, 
         };
         xhttp.open(act, url, true);
         xhttp.send();
+    };
+    
+    var route = function Route(name, desc, lat, lng) {
+      this.name = name;
+      this.desc = desc;
+      this.lat = lat;
+      this.lng = lng;
+    }
+    
+    var login = function() {
+        var title = document.getElementById('newTitle').value;
+        var desc = document.getElementById('newDesc').value;
+        
+        var route = new Route(title, desc, position.coords.latitude, position.coords.longitude);
+        console.log(JSON.stringigy(route));
+        updateValue("tile", JSON.stringify(route));
+        ons.notification.alert('Neue Route ' + title + ' angelegt!');
     };
 
     var getValue = function (key, fcn) {
