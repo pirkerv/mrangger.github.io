@@ -361,14 +361,14 @@ Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, 
         xhttp.send();
     };
     
-    var route = function Route(name, desc, lat, lng) {
+    function Route(name, desc, lat, lng) {
       this.name = name;
       this.desc = desc;
       this.lat = lat;
       this.lng = lng;
     }
     
-    var login = function() {
+    var addNewRoute = function() {
         var title = document.getElementById('newTitle').value;
         var desc = document.getElementById('newDesc').value;
         
