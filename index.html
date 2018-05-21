@@ -21,6 +21,54 @@
             background-position-x: -250px !important;
             background-image: url(https://mrangger.github.io/dog.png) !important;
         }
+        
+        //####
+        
+        .accordion {
+    transition: 0.4s;
+}
+
+
+.accordion:before {
+    margin-top: -3px;
+    content: '\02795';
+}
+
+.accordion.active:before {
+    content: "\2796";
+}
+
+div.panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.6s ease-in-out;
+    opacity: 0;
+}
+
+div.panel.show {
+    opacity: 1;
+    max-height: 500px;
+    padding: 25px 15px;
+}
+
+.list__item__center {
+    padding-left: 5px;
+}
+        
+        .toolbar__center{
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        
+        div.bg-text {
+            text-align: justify; 
+            min-height: 100%;
+            padding: 20px;
+            margin: 0px 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        
     </style>
     <script src="https://unpkg.com/onsenui/js/onsenui.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe0z0XLVoRitx3PdufUpGOH32Rlz1ADvA"></script>
@@ -38,7 +86,7 @@
                     <ons-list-item onclick="fn.load('touren.html')" tappable>Touren</ons-list-item>
                     <ons-list-item onclick="fn.load('events.html')" tappable>Veranstaltungen & Events</ons-list-item>
                                   
-                    <ons-list-item onclick="fn.load('home.html')" tappable>Kontakte</ons-list-item>
+                    <ons-list-item onclick="fn.load('contact.html')" tappable>Kontakt</ons-list-item>
                
                     <ons-list-item onclick="fn.load('about.html')" tappable>Impressum</ons-list-item>
                     
@@ -55,7 +103,7 @@
 </ons-page>
     
 <template id="touren.html">
-    <ons-page id ="liste">
+    <ons-page id ="touren-liste">
         <ons-toolbar>
             <div class="left">
                 <ons-toolbar-button onclick="fn.open()">
@@ -66,11 +114,8 @@
                 Meine Lieblingstouren
             </div>
         </ons-toolbar>
-        <ons-list>
-            <ons-list-item modifier="chevron" onclick="fn.load('map.html', {data: {title: 'Meine erste Tour'}})" tappable>Meine erste Tour</ons-list-item>
-            <ons-list-item modifier="chevron" onclick="fn.load('map.html', {data: {title: 'Meine zweite Tour'}})" tappable>Meine zweite Tour</ons-list-item>
-            <ons-list-item modifier="chevron" tappable>Meine siebzehnte Tour</ons-list-item>
-        </ons-list>
+    
+        <ons-list><ons-lazy-repeat id="infinite-touren-list"></ons-lazy-repeat></ons-list>
     </ons-page>
 </template>
     
@@ -78,7 +123,6 @@
     <ons-page id ="liste2">
         <ons-toolbar>
             <div class="left">
-                <ons-back-button>Back</ons-back-button>
                 <ons-toolbar-button onclick="fn.open()">
                     <ons-icon icon="md-menu"></ons-icon>
                 </ons-toolbar-button>
@@ -87,10 +131,20 @@
                 Meine Lieblingstouren
             </div>
         </ons-toolbar>
-        <ons-list>
-             <ons-list-item modifier="chevron" tappable>Hundeausstellung St. Pölten 1.6.18</ons-list-item>
+        <ons-list>        
+            <ons-list-item tappable class="accordion" onclick="fn.toggle(this)">Internationale Hundeausstellung in Ludwigshafen</ons-list-item>
+            <div class="panel">
+                07. Juli: FCI-Gruppen 2, 4, 5, 6, 8 </br>
+08. Juli: FCI-Gruppen 1, 3, 7, 9, 10</br>
+1. Meldeschluss: 9. Mai 2018 (1. Meldegebühr: 45 EURO)</br>
+2. Meldeschluss: 30. Mai 2018 (2. Meldegebühr: 55 EURO)   </br>
+           </div>
             
-             <ons-list-item modifier="chevron" tappable>Wandertag Neusiedlersee 17.10.18</ons-list-item>
+            <ons-list-item tappable class="accordion" onclick="fn.toggle(this)">Hundeausstellung in Innsbruck August</ons-list-item>
+            <div class="panel">
+Hunde - Rassenausstellung</br>
+           </div>
+
         </ons-list>
     </ons-page>
 </template>
@@ -117,13 +171,8 @@
          <ons-toolbar>
             <div class="left">
                 <ons-back-button>Back</ons-back-button>
-                <ons-toolbar-button onclick="fn.open()">
-                    <ons-icon icon="md-menu"></ons-icon>
-                </ons-toolbar-button>
             </div>
-            <div class="center">
-                Touren
-            </div>
+            <div class="center"></div>
         </ons-toolbar>
         <div id="map"></div>
   </ons-page>
@@ -142,17 +191,55 @@
                 Neue Tour
             </div>
         </ons-toolbar>
-        <div>
-           <div style="text-align: center; margin-top: 30px;">
-      <textarea class="textarea" rows="1" placeholder="Name" id="newTitle"></textarea>
-      <textarea class="textarea" rows="3" placeholder="Beschreibung" id="newDesc"></textarea>
-      <ons-button onclick="addNewRoute()">Neuer Eintrag</ons-button>
-            </div>
-     
-            
+        <div style="text-align: center; margin: 30px auto; width: 55%; ">
+            <textarea class="textarea" rows="1" placeholder="Name" id="newTitle"></textarea>
+            <textarea class="textarea" rows="3" placeholder="Beschreibung" id="newDesc"></textarea></br>
+            <ons-button onclick="addNewRoute()">Neuer Eintrag</ons-button>
+        </div>
+    
   </ons-page>
 </template>
     
+<template id="contact.html">
+  <ons-page>
+        <ons-toolbar>
+            <div class="left">
+                <ons-toolbar-button onclick="fn.open()">
+                    <ons-icon icon="md-menu"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Kontakt</div>
+        </ons-toolbar>    
+    <div class="bg-text">
+                    <h2>Obmann</h2>
+                    <p>
+
+                        Hans Karl</br>
+obmann@dogsunited.com</br>
+Hundestrasse 7 - 3199 Wien</br>
+Telefon: +43 1 277 6
+</p>
+<h2>Obmann-Stv.</h2>
+<p>Pauline Franz</br>
+obmann-stv@dogsunited.com</br>
+Katzengasse 87 - 3299 Wien</br>
+Telefon: +43 1 987 63
+</p>
+<h2>Navigator</h2>
+<p>Marcel Navigator</br>
+navigator@dogsunited.com
+</p>
+
+<h2>Webmaster</h2>
+<p>Peter Paul</br>
+webmaster@dogsunited.com
+                    </p>
+
+
+    </div>
+   </ons-page>
+</template>
+
     
  <template id="about.html">
   <ons-page>
@@ -162,13 +249,11 @@
                     <ons-icon icon="md-menu"></ons-icon>
                 </ons-toolbar-button>
             </div>
-            <div class="center">
-                Neue Tour
-            </div>
+            <div class="center">Impressum</div>
         </ons-toolbar>
-        <div>
 
-        <h1>Impressum</h1>
+<div class="bg-text">
+
 Informationspflicht laut §5 E-Commerce Gesetz, §14 Unternehmensgesetzbuch, §63 Gewerbeordnung und Offenlegungspflicht laut §25 Mediengesetz.
 
 123456789
@@ -176,7 +261,7 @@ Informationspflicht laut §5 E-Commerce Gesetz, §14 Unternehmensgesetzbuch, §6
 Organschaftliche Vertreter
 Obmann/Obfrau: Bello Bond
 Obmann/Obfrau Stellvertreter: Max Mustermann
-
+rgba(255, 255, 255, .5)
 Hundeschule99
 Tel.: 01234/56789
 Fax: 01234/56789-0
@@ -238,7 +323,7 @@ Wir verwenden Google Fonts der Firma Google Inc. (1600 Amphitheatre Parkway Moun
 
 Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, können Sie auf https://www.google.com/intl/de/policies/privacy/ nachlesen.
 
-
+      </div>
      
   </ons-page>
 </template>
@@ -267,25 +352,71 @@ Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, 
         content.popPage();
     };
     
+    window.fn.toggle = function(el) {
+        el.classList.toggle("active");
+        el.nextElementSibling.classList.toggle("show");
+    }
+    
+
+    var touren = [
+        {   name: "Rif nach Hallein entlang der Salzach",
+            lat: 47.68,
+            lng: 13.10
+        },
+        {   name: "Von Grödig nach Marktschellenberg in Berchtesgaden",
+            lat: 47.6,
+            lng: 13.0
+        }
+        
+
+    ];
+    
+    setupList = function() {
+        var infiniteList = document.getElementById('infinite-touren-list');
+        console.log("ons-ready")
+        infiniteList.delegate = {
+            createItemContent: function(i) {
+                console.log(touren[i])
+              return ons.createElement("<ons-list-item modifier=\"chevron\" onclick=\"fn.load('map.html', {data: {tourId: " + i + "}})\" tappable>Tour " + (i+1) + ": " + touren[i].name + "</ons-list-item>");
+            },
+            
+            countItems: function() {
+              return touren.length;
+            }
+        };
+
+        infiniteList.refresh();
+    };
+    
     
     document.addEventListener('init', function(event) { 
         var page = event.target; 
-        if (page.data && page.data.title) {
-            console.log(page.data)
-            page.querySelector('ons-toolbar .center').innerHTML = appName + " " + page.data.title; 
-        }
-        console.log(page)
-        if (page.id == "karte") {
-                 //Karte initialisieren
-            console.log("adsf")
-         setupMap(48, 16.5);
+        if (page.data) {
+            if (page.data.title) {
+                page.querySelector('ons-toolbar .center').innerHTML = page.data.title; 
+            }
             
+            
+           
+        }
+        
+        if (page.id == "karte") {
+            var tourId = page.data.tourId || 0;
+            var tour = touren[tourId];
+            page.querySelector('ons-toolbar .center').innerHTML = tour.name; 
+            setupMap(tour.lat, tour.lng);
+        }
+        
+        if (page.id == "touren-liste") {
+            setupList();
         }
     });
     
  function setupMap(lat, lng) {
+     
+     //position.coords.latitude, position.coords.longitude
         navigator.geolocation.getCurrentPosition(function(position) {
-            path = getRandomRoute(position.coords.latitude, position.coords.longitude)
+            path = getRandomRoute(lat, lng);
         }, function error(err) {
             console.warn(`ERROR(${err.code}): ${err.message}`);
         }, {
@@ -344,8 +475,25 @@ Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, 
         return coords;
     }
     
-
-
+     var addNewRoute = function() {
+         navigator.geolocation.getCurrentPosition(function(position) {
+            routen.push({
+                name: document.getElementById('newTitle').value,
+                desc: document.getElementById('newDesc').value,
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+             
+            ons.notification.alert('Neue Route ' + title + ' angelegt!'); 
+        }, function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }, {
+            timeout: 50000
+        });
+    };
+    
+/*
+// Touren werden per Ajax z.B. aus Redis Datenbank gelanden. Aufgrund same origin policy Demo nicht möglich.
     var appkey = "97mn80y6";
     var loadHttp = function (act, url, callback) {
         var xhttp = new XMLHttpRequest();
@@ -396,6 +544,7 @@ Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, 
     updateValue('appName', 'WalkTheDog');
     var appName = "";
     getValue('appName', function(data){ console.log(data); });
+    */
 </script>
 </body>
 </html>
