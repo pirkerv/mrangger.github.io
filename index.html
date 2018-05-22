@@ -448,17 +448,18 @@ Welche Daten von Google erfasst werden und wofür diese Daten verwendet werden, 
 
     }
 
-    function getRandomRoute(la, lo, maxIterations = 4) {
+    function getRandomRoute(la, lo, maxIterations = 10) {
         var coords = [];
-        for (var i = 0; i < maxIterations; i++) {
+        coords.push({lat: la, lng: lo});
+        for (var i = 1; i <= maxIterations; i++) {
             // Create a random point using the user current position and a random generated number.
             // The number will be once positive and once negative using based on the parity of i
             // and to reduce the range the number is divided by 10
-
-            coords.push({
-                lat: la + (Math.random() / 10 * ((i % 2) ? 1 : -1)),
-                lng: lo + (Math.random() / 15 * ((i % 2) ? 1 : -1))
-            });
+            
+                la = coords[i-1].lat + (Math.random() / 200 * ((i > maxIterations/2) ? 1 : -1)) 
+                lo = coords[i-1].lng + (Math.random() / 150 * ((i > maxIterations/2) ? 1 : -1));    
+            
+            coords.push({lat: la, lng: lo});
         }
 
         coords.push(coords[0]);
