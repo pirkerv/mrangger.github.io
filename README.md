@@ -51,7 +51,7 @@ Während der Pilotphase werden die Funktionalitäten der App und der Web-Applika
 
 Für die Umsetzung werden folgende Cloud-Dienste verwendet:
 - Google Maps: Hier werden die Touren der Web-Applikation angezeigt. Die Ortung des Benutzers, zum Erkennen des aktuellen Standorts, kommt hier auch zum Einsatz.
-- Cloud Storage: Die Daten (Touren, Veranstaltungen, usw.) werden in einer Cloud-Datenbank gespeichert.
+- Github: Entwicklungsplattform zur Quellcodeverwaltung.
 - AppTitan: Baukastensystem zum Entwickeln der App.
 
 ## Ausblick
