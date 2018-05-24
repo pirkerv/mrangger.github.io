@@ -47,11 +47,11 @@ Die Web-Applikation wurde in HTML 5 entwickelt. Somit ist es möglich, dass die 
 
 Während der Pilotphase werden die Funktionalitäten der App und der Web-Applikation separat getestet. Somit werden die erfassten Informationen, welche in die App eingegeben werden, noch nicht in der Web-Applikation zur Verfügung stehen.
 
-## Cloud-Dienste
+## Dienste/Services
 
 Für die Umsetzung werden folgende Cloud-Dienste verwendet:
 - Google Maps: Hier werden die Touren der Web-Applikation angezeigt. Die Ortung des Benutzers, zum Erkennen des aktuellen Standorts, kommt hier auch zum Einsatz.
-- Cloud Storage: Die Daten (Touren, Veranstaltungen, usw.) werden in einer Cloud-Datenbank gespeichert.
+- Github: Entwicklungsplattform zur Quellcodeverwaltung.
 - AppTitan: Baukastensystem zum Entwickeln der App.
 
 ## Ausblick
