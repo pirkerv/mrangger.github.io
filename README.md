@@ -36,11 +36,11 @@ Die Web-Applikation wurde in HTML 5 entwickelt. Somit ist es möglich, dass die 
 
 ## Screenshots der App
 
-![Menü der App](01_Menue.jpg "Menü der App")
-![Neue Tour anlegen](02_Neue_Tour.jpg "Neue Tour anlegen")
-![Touranzeige als pdf-Datei](03_Touren.jpg "Touranzeige als pdf-Datei")
-![Fotos](04_Fotos.jpg "Fotos")
-![News & Veranstaltungen](05_News.jpg "News & Veranstaltungen")
+![Menü der App](01_Menue.jpg "Menü der App"){ width=50% }
+![Neue Tour anlegen](02_Neue_Tour.jpg "Neue Tour anlegen"){ width=50% }
+![Touranzeige als pdf-Datei](03_Touren.jpg "Touranzeige als pdf-Datei"){ width=50% }
+![Fotos](04_Fotos.jpg "Fotos"){ width=50% }
+![News & Veranstaltungen](05_News.jpg "News & Veranstaltungen"){ width=50% }
 
 
 ## Pilotphase
